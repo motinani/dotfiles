@@ -1,30 +1,46 @@
-# Path to your oh-my-zsh installation.
-export ZSH=/home/moti/.oh-my-zsh
-export WORKON_HOME="$HOME/.local/share/virtualenvs"
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
 
-# java
-export JAVA_HOME=/usr/lib/jvm/default-java
-export PYTHONPATH="${PYTHONPATH}:/home/moti/dev/healthshield/hslibs"
-# Set name of the theme to load.
-# Look in ~/.oh-my-zsh/themes/
-# Optionally, if you set this to "random", it'll load a random theme each
-# time that oh-my-zsh is loaded.
+# If you come from bash you might have to change your $PATH.
+# export PATH=$HOME/bin:/usr/local/bin:$PATH
+
+# Path to your oh-my-zsh installation.
+export ZSH="$HOME/.oh-my-zsh"
+
+# Set name of the theme to load --- if set to "random", it will
+# load a random theme each time oh-my-zsh is loaded, in which case,
+# to know which specific one was loaded, run: echo $RANDOM_THEME
+# See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
 #ZSH_THEME="robbyrussell"
-ZSH_THEME="refined"
-#ZSH_THEME="powerlevel9k/powerlevel9k"
+ZSH_THEME="powerlevel10k/powerlevel10k"
+# Set list of themes to pick from when loading at random
+# Setting this variable when ZSH_THEME=random will cause zsh to load
+# a theme from this variable instead of looking in ~/.oh-my-zsh/themes/
+# If set to an empty array, this variable will have no effect.
+# ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
 
-# Uncomment the following line to use hyphen-insensitive completion. Case
-# sensitive completion must be off. _ and - will be interchangeable.
+# Uncomment the following line to use hyphen-insensitive completion.
+# Case-sensitive completion must be off. _ and - will be interchangeable.
 # HYPHEN_INSENSITIVE="true"
 
 # Uncomment the following line to disable bi-weekly auto-update checks.
 # DISABLE_AUTO_UPDATE="true"
 
+# Uncomment the following line to automatically update without prompting.
+# DISABLE_UPDATE_PROMPT="true"
+
 # Uncomment the following line to change how often to auto-update (in days).
 # export UPDATE_ZSH_DAYS=13
+
+# Uncomment the following line if pasting URLs and other text is messed up.
+# DISABLE_MAGIC_FUNCTIONS=true
 
 # Uncomment the following line to disable colors in ls.
 # DISABLE_LS_COLORS="true"
@@ -45,31 +61,40 @@ ZSH_THEME="refined"
 
 # Uncomment the following line if you want to change the command execution time
 # stamp shown in the history command output.
-# The optional three formats: "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
+# You can set one of the optional three formats:
+# "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
+# or set a custom format using the strftime function format specifications,
+# see 'man strftime' for details.
 # HIST_STAMPS="mm/dd/yyyy"
 
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
 
-# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
+# Which plugins would you like to load?
+# Standard plugins can be found in ~/.oh-my-zsh/plugins/*
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git git-extras colored-man-pages  virtualenvwrapper zsh-syntax-highlighting pipenv z)
-fpath+=~/.zfunc
+plugins=(
+    git
+    git-extras
+    colored-man-pages
+    kubectl
+    gcloud
+    tmux
+    poetry
+    gh
+    git-flow-completion
+    zsh-syntax-highlighting
+    systemd
+    autojump
+    taskwarrior
+)
+source $ZSH/oh-my-zsh.sh
+
 # User configuration
 
-export PATH="/home/moti/install/google-cloud-sdk/bin:/home/moti/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/home/moti/dev/installations/spring/bin"
-export PATH=$PATH:$JAVA_HOME/bin
-export PATH=$PATH:/home/moti/.local/bin
 # export MANPATH="/usr/local/man:$MANPATH"
-
-# Gradle
-if [ -d "$HOME/opt/gradle" ]; then
-    export GRADLE_HOME="$HOME/opt/gradle"
-    PATH="$PATH:$GRADLE_HOME/bin"
-fi
-source $ZSH/oh-my-zsh.sh
 
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
@@ -81,11 +106,9 @@ source $ZSH/oh-my-zsh.sh
 #   export EDITOR='mvim'
 # fi
 
+export EDITOR='vim'
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
-
-# ssh
-# export SSH_KEY_PATH="~/.ssh/dsa_id"
 
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
@@ -95,46 +118,78 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-source $ZSH_CUSTOM/aliases
-source /usr/share/virtualenvwrapper/virtualenvwrapper.sh
-#export GOOGLE_APPLICATION_CREDENTIALS=$HOME/.config/gcloud/credentials/healthshield-dev-4cea4b6c8094.json
-# Custom npm setup from here: https://github.com/sindresorhus/guides/blob/master/npm-global-without-sudo-linux.md
-export NPM_PACKAGES=~/.npm-packages
-export PATH=$PATH:$NPM_PACKAGES/bin
+#
+fpath+=~/.zfunc
+autoload -U +X bashcompinit && bashcompinit
+autoload -U compinit && compinit
+compinit
 
-#source /usr/lib/google-cloud-sdk/completion.zsh.inc
-source <(kubectl completion zsh)
-export PYENV_ROOT=$HOME/.pyenv
-export PATH=$PATH:$PYENV_ROOT/bin
-export PATH=$PATH:$HOME/go/bin
-export PATH=$PATH:/snap/bin
-export HISTTIMEFORMAT="%d/%m/%y %T "
-alias cdc="cd ~/go/src/csi-kaminario"
-export PATH=$PATH:$HOME/.linkerd2/bin
-export PATH=$PATH:/usr/local/go/bin
-source <(stern --completion=zsh)
-
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/home/moti/google-cloud-sdk/path.zsh.inc' ]; then . '/home/moti/google-cloud-sdk/path.zsh.inc'; fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f '/home/moti/google-cloud-sdk/completion.zsh.inc' ]; then . '/home/moti/google-cloud-sdk/completion.zsh.inc'; fi
-source /home/moti/dev/hs-dev-env/zshrc  # hs-dev-env
+source $HOME/dev/hs-dev-env/zshrc  # hs-dev-env
+export PATH="$HOME/.pyenv/bin:$PATH"
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-export PATH=/home/moti/.nvm/versions/node/v6.0.0/bin:/home/moti/.npm-packages/bin:/home/moti/bin:/home/moti/.local/bin:/home/moti/dev/hs-dev-env/scripts:/home/moti/google-cloud-sdk/bin:/home/moti/install/google-cloud-sdk/bin:/home/moti/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/home/moti/dev/installations/spring/bin:/usr/lib/jvm/default-java/bin:/home/moti/.local/bin:/home/moti/.npm-packages/bin:/home/moti/.pyenv/bin:/home/moti/go/bin:/snap/bin:/home/moti/.linkerd2/bin:/usr/local/go/bin:/home/linuxbrew/.linuxbrew/bin
-eval "$(direnv hook zsh)"
-export EDITOR=/usr/bin/editor
-function pet-select() {
-  BUFFER=$(pet search --query "$LBUFFER")
-  CURSOR=$#BUFFER
-  zle redisplay
-}
-zle -N pet-select
-stty -ixon
-bindkey '^s' pet-select
-unsetopt AUTO_CD
-export PATH=/home/moti/.nvm/versions/node/v6.0.0/bin:/home/moti/.npm-packages/bin:/home/moti/bin:/home/moti/.local/bin:/home/moti/dev/hs-dev-env/scripts:/home/moti/google-cloud-sdk/bin:/home/moti/install/google-cloud-sdk/bin:/home/moti/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/home/moti/dev/installations/spring/bin:/usr/lib/jvm/default-java/bin:/home/moti/.local/bin:/home/moti/.npm-packages/bin:/home/moti/.pyenv/bin:/home/moti/go/bin:/snap/bin:/home/moti/.linkerd2/bin:/usr/local/go/bin:/home/linuxbrew/.linuxbrew/bin:/home/moti/.poetry/bin
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+eval $(thefuck --alias)
+# for perl warnings
+export LC_CTYPE=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
+
+
+pasteinit() {
+  OLD_SELF_INSERT=${${(s.:.)widgets[self-insert]}[2,3]}
+  zle -N self-insert url-quote-magic # I wonder if you'd need `.url-quote-magic`?
+}
+
+pastefinish() {
+  zle -N self-insert $OLD_SELF_INSERT
+}
+zstyle :bracketed-paste-magic paste-init pasteinit
+zstyle :bracketed-paste-magic paste-finish pastefinish
+alias did="vim +'normal Go' +'r!date' ~/did.txt"
+
+export ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
+export ZSH_AUTOSUGGEST_USE_ASYNC=1
+bindkey '^ ' autosuggest-accept
+eval #compdef pipenv
+_pipenv() {
+  eval $(env COMMANDLINE="${words[1,$CURRENT]}" _PIPENV_COMPLETE=complete-zsh  pipenv)
+}
+if [[ "$(basename -- ${(%):-%x})" != "_pipenv" ]]; then
+  autoload -U compinit && compinit
+  compdef _pipenv pipenv
+fi
+
+if [ $HOME/bin/stern ]; then source <(stern --completion=zsh); fi
+
+if [ $HOME/bin/eksctl ]; then source <(eksctl completion zsh); fi
+
+export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$HOME/.pyenv/plugins/pyenv-virtualenv/shims:$HOME/.pyenv/shims:$HOME/.pyenv/bin:$HOME/.npm-packages/bin:$HOME/bin:$HOME/.local/bin:$HOME/dev/hs-dev-env/scripts:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:$HOME/.fzf/bin:$HOME/.cargo/bin:/usr/local/go/bin:$HOME/go/bin:$PATH"
+complete -C '/usr/local/bin/aws_completer' aws
+export SSLKEYLOGFILE=~/.ssl-key.log
+fpath=($fpath ~/.zsh/completion)
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+eval "$(pyenv init -)"
+source /etc/profile.d/nix.sh
+
+export PATH="$HOME/.poetry/bin:$PATH"
+export PATH="$HOME/3p/diff-so-fancy:$PATH"
+
+export PATH="/usr/local/google/google-cloud-sdk/bin:$PATH"
+
+export USE_GKE_GCLOUD_AUTH_PLUGIN=True
+
+if [ /home/moti/.zshrc/kubectl ]; then source <(kubectl completion zsh); fi
+
+# autojump
+
+[[ -s /home/moti/.autojump/etc/profile.d/autojump.sh  ]] && source /home/moti/.autojump/etc/profile.d/autojump.sh
+autoload -U compinit && compinit -u
+
+eval "$(atuin init zsh)"
